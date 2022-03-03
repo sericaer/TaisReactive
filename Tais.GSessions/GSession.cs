@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Tais.API;
 
-namespace Tais.Runtime
+namespace Tais.GSessions
 {
     public partial class GSession
     {

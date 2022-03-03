@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 using Tais.API;
+using Tais.Runtime;
 
-namespace Tais.Runtime
+namespace Tais.GSessions
 {
     public partial class GSession
     {
