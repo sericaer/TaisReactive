@@ -85,5 +85,5 @@ crashlytics-build.properties
 /Tais.RelationMgr/obj
 /Tais.Runtime/bin
 /Tais.Runtime/obj
-/Tais.GSession/bin
-/Tais.GSession/obj
+/Tais.GSessions/bin
+/Tais.GSessions/obj

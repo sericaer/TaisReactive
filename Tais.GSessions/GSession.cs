@@ -9,6 +9,13 @@ namespace Tais.GSessions
     {
         public static GSession inst { get; private set; }
 
+        public IDate date { get; set; }
+
         public IPerson player { get; set; }
+
+        public void OnDayInc()
+        {
+            date.DayInc();
+        }
     }
 }

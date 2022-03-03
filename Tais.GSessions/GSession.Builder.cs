@@ -15,6 +15,7 @@ namespace Tais.GSessions
                 var session = new GSession();
                 GSession.inst = session;
 
+                session.date = new Date();
                 session.player = new Person("Person0");
             }
         }
