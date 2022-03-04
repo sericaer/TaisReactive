@@ -9,13 +9,17 @@ namespace Tais.GSessions
     {
         public static GSession inst { get; private set; }
 
-        public IDate date { get; set; }
+        public IDate date { get; private set; }
 
-        public IPerson player { get; set; }
+        public IPerson player { get; private set; }
+
+        public ITaxManager taxMgr { get; private set; }
 
         public void OnDayInc()
         {
             date.DayInc();
+
+            taxMgr.DayInc(date.year, date.month, date.day);
         }
     }
 }

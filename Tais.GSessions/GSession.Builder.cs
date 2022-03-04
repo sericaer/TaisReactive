@@ -17,6 +17,9 @@ namespace Tais.GSessions
 
                 session.date = new Date();
                 session.player = new Person("Person0");
+
+                session.taxMgr = new TaxManager();
+
             }
         }
     }

@@ -10,4 +10,8 @@
     <OutputPath>..\Assets\Managed\</OutputPath>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="DynamicData" Version="7.5.4" />
+  </ItemGroup>
+
 </Project>
