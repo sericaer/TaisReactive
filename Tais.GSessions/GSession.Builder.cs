@@ -18,7 +18,20 @@ namespace Tais.GSessions
                 session.date = new Date();
                 session.player = new Person("Person0");
 
-                session.taxMgr = new TaxManager();
+                var taxMgr = new TaxManager(100);
+                session.taxMgr = taxMgr;
+
+                var departs = new List<IDepart>();
+                session.departs = departs;
+                for(int i=0; i<3; i++)
+                {
+                    departs.Add(new Depart($"DEPART{i}"));
+                }
+
+                foreach(var depart in session.departs)
+                {
+                    taxMgr.AddTaxSourcePerMonth(depart.taxSource);
+                }
 
             }
         }

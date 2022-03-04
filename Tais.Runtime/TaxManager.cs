@@ -25,9 +25,9 @@ namespace Tais.Runtime
         private SourceList<ITaxSource> _taxSourcesPerMonth = new SourceList<ITaxSource>();
 
         private IDisposable totalTaxSubscribe;
-        public TaxManager()
+        public TaxManager(int stock)
         {
-            stock = 100;
+            this.stock = stock;
 
             taxSourcesPerMonth = _taxSourcesPerMonth.Connect().AsObservableList();
 
@@ -37,11 +37,6 @@ namespace Tais.Runtime
 
                 totalTaxSubscribe = taxSourcesPerMonth.Connect().WhenValueChanged(x => x.value).Subscribe(_ => taxPerMonth = taxSourcesPerMonth.Items.Sum(e=>e.value));
             });
-
-            for(int i=0; i<3; i++)
-            {
-                AddDepartTax(new DepartTax($"DepartTax{i}", i*10));
-            }
         }
 
         public void DayInc(int year, int month, int day)
@@ -50,37 +45,11 @@ namespace Tais.Runtime
             {
                 stock += taxPerMonth;
             }
-
-            if (day % 10 == 0)
-            {
-                foreach (var source in _taxSourcesPerMonth.Items)
-                {
-                    var tax = source as DepartTax;
-                    tax.value++;
-                }
-            }
-
         }
 
-        public void AddDepartTax(IDepartTax departTax)
+        public void AddTaxSourcePerMonth(ITaxSourcePerMonth departTax)
         {
             _taxSourcesPerMonth.Add(departTax);
         }
-    }
-
-    internal class DepartTax : IDepartTax
-    {
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        public DepartTax(string name, int value)
-        {
-            this.label = name;
-            this.value = value;
-        }
-
-        public int value { get; set; }
-
-        public string label { get; set; }
-
     }
 }

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Tais.API
 {
-    public interface IDepartTax : ITaxSource
+    public interface ITaxSourcePerMonth : ITaxSource
     {
     }
 
