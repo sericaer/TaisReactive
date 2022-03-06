@@ -21,6 +21,11 @@ namespace Tais.GSessions
             date.DayInc();
 
             taxMgr.DayInc(date.year, date.month, date.day);
+
+            foreach(var depart in departs)
+            {
+                depart.DayInc();
+            }
         }
     }
 }

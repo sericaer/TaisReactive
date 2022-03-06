@@ -11,5 +11,7 @@ namespace Tais.API
         ITaxSourcePerMonth taxSource { get; }
 
         IObservableList<IPop> pops { get; }
+
+        void DayInc();
     }
 }

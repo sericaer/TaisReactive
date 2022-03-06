@@ -8,5 +8,7 @@ namespace Tais.API
         int num { get; }
 
         ITaxSource taxSource { get; }
+
+        void DayInc();
     }
 }

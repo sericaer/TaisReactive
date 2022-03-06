@@ -9,7 +9,9 @@ namespace Tais.Runtime
     {
         private class TaxSource : ITaxSource
         {
+#pragma warning disable 67
             public event PropertyChangedEventHandler PropertyChanged;
+#pragma warning restore 67
 
             public string label { get; private set; }
 

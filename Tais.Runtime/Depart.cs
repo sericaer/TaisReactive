@@ -22,5 +22,13 @@ namespace Tais.Runtime
         {
             _pops.Add(pop);
         }
+
+        public void DayInc()
+        {
+            foreach(var pop in pops.Items)
+            {
+                pop.DayInc();
+            }
+        }
     }
 }

@@ -5,7 +5,9 @@ namespace Tais.Runtime
 {
     public partial class Pop : IPop
     {
+#pragma warning disable 67
         public event PropertyChangedEventHandler PropertyChanged;
+#pragma warning restore 67
 
         public string name { get; private set; }
 
@@ -23,5 +25,9 @@ namespace Tais.Runtime
             _taxSource = new TaxSource(this);
         }
 
+        public void DayInc()
+        {
+            num += 10;
+        }
     }
 }
