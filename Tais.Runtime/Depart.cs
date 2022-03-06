@@ -1,4 +1,5 @@
-﻿using Tais.API;
+﻿using DynamicData;
+using Tais.API;
 
 namespace Tais.Runtime
 {
@@ -7,10 +8,19 @@ namespace Tais.Runtime
         public string name { get; private set; }
         public ITaxSourcePerMonth taxSource { get; private set; }
 
+        public IObservableList<IPop> pops => _pops;
+
+        private SourceList<IPop> _pops = new SourceList<IPop>();
+
         public Depart(string name)
         {
             this.name = name;
             this.taxSource = new TaxSource(this);
+        }
+
+        public void AddPop(Pop pop)
+        {
+            _pops.Add(pop);
         }
     }
 }

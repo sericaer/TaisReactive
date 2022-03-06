@@ -25,7 +25,13 @@ namespace Tais.GSessions
                 session.departs = departs;
                 for(int i=0; i<3; i++)
                 {
-                    departs.Add(new Depart($"DEPART{i}"));
+                    var depart = new Depart($"DEPART{i}");
+                    departs.Add(depart);
+
+                    for(int j=0; j<3; j++)
+                    {
+                        depart.AddPop(new Pop($"POP{i}_{j}", (j+1) * 10000));
+                    }
                 }
 
                 foreach(var depart in session.departs)

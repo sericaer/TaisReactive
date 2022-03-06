@@ -1,4 +1,7 @@
-﻿using System.ComponentModel;
+﻿using DynamicData;
+using System;
+using System.ComponentModel;
+using System.Linq;
 using Tais.API;
 
 namespace Tais.Runtime
@@ -14,11 +17,17 @@ namespace Tais.Runtime
 
             public int value { get; private set; }
 
-
+            private IDisposable dispSubscribeVale;
             public TaxSource(Depart depart)
             {
                 this.label = depart.name;
-                this.value = 10;
+
+                depart.pops.Connect().Subscribe(changes =>
+                {
+                    dispSubscribeVale?.Dispose();
+                    dispSubscribeVale = depart.pops.Connect().WhenValueChanged(x => x.taxSource.value)
+                                                .Subscribe(_ => value = depart.pops.Items.Sum(x => x.taxSource.value));
+                });
             }
         }
     }

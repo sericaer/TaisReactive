@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DynamicData;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -8,5 +9,7 @@ namespace Tais.API
     {
         string name { get; }
         ITaxSourcePerMonth taxSource { get; }
+
+        IObservableList<IPop> pops { get; }
     }
 }
