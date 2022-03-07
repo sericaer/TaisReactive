@@ -423,6 +423,21 @@ MonoBehaviour:
   speedInc: {fileID: 523482934}
   speedDec: {fileID: 2005942308}
   speedPause: {fileID: 1389377970}
+  onTimer:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1055190312}
+        m_TargetAssemblyTypeName: MainScene, Assembly-CSharp
+        m_MethodName: OnDaysTimer
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &171287922
 GameObject:
   m_ObjectHideFlags: 0
@@ -2305,6 +2320,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: abcc9fa3c09087047af1c39c1d5876c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  prefabEventPanel: {fileID: 6882551068448843081, guid: c82f0c90b0d202d44b7aba37b02e601d, type: 3}
+  uiCanvas: {fileID: 514006104}
 --- !u!4 &1055190313
 Transform:
   m_ObjectHideFlags: 0
@@ -2793,7 +2810,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.392}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.39215687}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

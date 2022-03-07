@@ -3,6 +3,8 @@ using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections.Generic;
+using UnityEngine.Events;
 
 public class DayTimer : MonoBehaviour
 {
@@ -19,6 +21,12 @@ public class DayTimer : MonoBehaviour
 
     public int MAX_SPEED => 4;
     public int MIN_SPEED => 1;
+
+    [Serializable]
+    public class OnTimerEvent : UnityEvent { };
+
+    
+    public OnTimerEvent onTimer;
 
     void Start()
     {
@@ -56,9 +64,24 @@ public class DayTimer : MonoBehaviour
     {
         yield return new WaitForSeconds(1.0f / speed);
         yield return new WaitUntil(() => !isPause);
-        
-        GSession.inst.OnDayInc();
+
+        onTimer.Invoke();
 
         StartCoroutine(OnTimer());
+    }
+
+    class EventManager
+    {
+        public static EventManager inst;
+
+        internal IEnumerable<GEvent> OnDayInc(GSession session)
+        {
+            yield return new GEvent();
+        }
+    }
+
+    class GEvent
+    {
+
     }
 }
