@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Tais.API;
 using Tais.Runtime;
+using Tais.API.Def;
 
 namespace Tais.GSessions
 {
@@ -10,38 +11,34 @@ namespace Tais.GSessions
     {
         public static class Builder
         {
-            public static void Build()
+            public static void Build(IDefs defs)
             {
-                var session = new GSession();
-                GSession.inst = session;
+                inst = new GSession();
 
-                session.date = new Date();
-                session.player = new Person("Person0");
+                inst.date = new Date();
+                inst.player = new Person("Person0");
 
                 var taxMgr = new TaxManager(100);
-                session.taxMgr = taxMgr;
+                inst.taxMgr = taxMgr;
 
-                session.popMgr = new PopManager();
+                inst.popMgr = new PopManager();
 
                 var departs = new List<IDepart>();
-                session.departs = departs;
-                for(int i=0; i<3; i++)
+                inst.departs = departs;
+
+                foreach(var departDef in defs.departDefs)
                 {
-                    var depart = new Depart($"DEPART{i}");
+                    var depart = new Depart(departDef.name);
                     departs.Add(depart);
 
-                    for(int j=0; j<3; j++)
+                    foreach(var popInit in departDef.popInits)
                     {
-                        var pop = session.popMgr.Create($"POP{i}_{j}", (j + 1) * 10000);
+                        var pop = inst.popMgr.Create(popInit.def, popInit.num);
                         depart.AddPop(pop);
                     }
-                }
 
-                foreach(var depart in session.departs)
-                {
                     taxMgr.AddTaxSourcePerMonth(depart.taxSource);
                 }
-
             }
         }
     }

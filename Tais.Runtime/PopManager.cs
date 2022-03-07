@@ -5,12 +5,15 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using Tais.API;
+using Tais.API.Def;
 
 namespace Tais.Runtime
 {
     public class PopManager : IPopManager
     {
+#pragma warning disable 67
         public event PropertyChangedEventHandler PropertyChanged;
+#pragma warning restore 67
 
         public int totalCount { get; private set; }
 
@@ -30,9 +33,9 @@ namespace Tais.Runtime
             });
         }
 
-        public IPop Create(string name, int count)
+        public IPop Create(IPopDef def, int count)
         {
-            var pop = new Pop(name, count);
+            var pop = new Pop(def, count);
 
             _pops.Add(pop);
 

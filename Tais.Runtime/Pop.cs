@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using Tais.API;
+using Tais.API.Def;
 
 namespace Tais.Runtime
 {
@@ -9,17 +10,19 @@ namespace Tais.Runtime
         public event PropertyChangedEventHandler PropertyChanged;
 #pragma warning restore 67
 
-        public string name { get; private set; }
+        public string name => def.name;
 
         public int num { get; private set; }
+
+        public IPopDef def { get; private set; }
 
         public ITaxSource taxSource => _taxSource;
 
         private TaxSource _taxSource;
 
-        public Pop(string name, int num)
+        public Pop(IPopDef def, int num)
         {
-            this.name = name;
+            this.def = def;
             this.num = num;
 
             _taxSource = new TaxSource(this);

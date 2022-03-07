@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
+using Tais.API.Def;
 
 namespace Tais.API
 {
@@ -12,7 +13,7 @@ namespace Tais.API
 
         IObservableList<IPop> pops { get; }
 
-        IPop Create(string name, int count);
+        IPop Create(IPopDef def, int count);
         void DayInc(IDate now);
     }
 }
