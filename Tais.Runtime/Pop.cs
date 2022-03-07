@@ -25,7 +25,7 @@ namespace Tais.Runtime
             _taxSource = new TaxSource(this);
         }
 
-        public void DayInc()
+        public void DayInc(IDate now)
         {
             num += 10;
         }

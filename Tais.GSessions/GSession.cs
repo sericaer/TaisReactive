@@ -15,12 +15,16 @@ namespace Tais.GSessions
 
         public ITaxManager taxMgr { get; private set; }
 
+        public IPopManager popMgr { get; private set; }
+
         public IEnumerable<IDepart> departs { get; private set; }
+
         public void OnDayInc()
         {
             date.DayInc();
 
             taxMgr.DayInc(date.year, date.month, date.day);
+            popMgr.DayInc(date);
 
             foreach(var depart in departs)
             {

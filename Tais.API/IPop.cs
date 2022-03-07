@@ -9,6 +9,6 @@ namespace Tais.API
 
         ITaxSource taxSource { get; }
 
-        void DayInc();
+        void DayInc(IDate now);
     }
 }

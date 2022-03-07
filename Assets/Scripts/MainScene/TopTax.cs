@@ -6,7 +6,7 @@ using Tais.GSessions;
 using UnityEngine;
 using UnityEngine.UI;
 
-class PlayerTax : RxMonoBehaviour
+class TopTax : RxMonoBehaviour
 {
     public Text stock;
     public Text perMonth;

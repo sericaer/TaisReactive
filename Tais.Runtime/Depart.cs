@@ -18,17 +18,14 @@ namespace Tais.Runtime
             this.taxSource = new TaxSource(this);
         }
 
-        public void AddPop(Pop pop)
+        public void AddPop(IPop pop)
         {
             _pops.Add(pop);
         }
 
         public void DayInc()
         {
-            foreach(var pop in pops.Items)
-            {
-                pop.DayInc();
-            }
+
         }
     }
 }

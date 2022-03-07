@@ -21,6 +21,8 @@ namespace Tais.GSessions
                 var taxMgr = new TaxManager(100);
                 session.taxMgr = taxMgr;
 
+                session.popMgr = new PopManager();
+
                 var departs = new List<IDepart>();
                 session.departs = departs;
                 for(int i=0; i<3; i++)
@@ -30,7 +32,8 @@ namespace Tais.GSessions
 
                     for(int j=0; j<3; j++)
                     {
-                        depart.AddPop(new Pop($"POP{i}_{j}", (j+1) * 10000));
+                        var pop = session.popMgr.Create($"POP{i}_{j}", (j + 1) * 10000);
+                        depart.AddPop(pop);
                     }
                 }
 
