@@ -1,10 +1,11 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class GEventPanel : MonoBehaviour
 {
-    public GEvent gEvent
+    public IGEvent gEvent
     {
         get
         {
@@ -32,13 +33,21 @@ public class GEventPanel : MonoBehaviour
         }
     }
 
+    public Func<bool> onDestory { get; set; }
+
     public Text title;
     public Text desc;
     public Transform optionContainer;
 
     public GameObject defaultOptionItem;
 
-    private GEvent _gEvent;
+    private IGEvent _gEvent;
+
+    private void OnDestroy()
+    {
+        onDestory?.Invoke();
+    }
+
     // Use this for initialization
     void Start()
     {

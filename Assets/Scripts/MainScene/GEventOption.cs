@@ -8,7 +8,7 @@ public class GEventOption : MonoBehaviour
     public Text desc;
     public Button button;
 
-    public GEvent.Option option
+    public IOption option
     {
         get
         {
@@ -18,10 +18,12 @@ public class GEventOption : MonoBehaviour
         {
             _option = value;
             desc.text = _option.desc;
+
+            button.onClick.AddListener(() => _option.Do());
         }
     }
 
-    private GEvent.Option _option;
+    private IOption _option;
     // Start is called before the first frame update
     void Start()
     {

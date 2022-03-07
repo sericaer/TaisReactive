@@ -16,7 +16,7 @@ namespace Tais.Runtime
         public event PropertyChangedEventHandler PropertyChanged;
 #pragma warning restore 67
 
-        public int stock { get; private set; }
+        public int stock { get; set; }
 
         public int taxPerMonth { get; private set; }
 

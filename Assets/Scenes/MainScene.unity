@@ -2322,6 +2322,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefabEventPanel: {fileID: 6882551068448843081, guid: c82f0c90b0d202d44b7aba37b02e601d, type: 3}
   uiCanvas: {fileID: 514006104}
+  dayTimer: {fileID: 147989484}
 --- !u!4 &1055190313
 Transform:
   m_ObjectHideFlags: 0

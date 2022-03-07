@@ -6,7 +6,7 @@ namespace Tais.API
 {
     public interface ITaxManager : INotifyPropertyChanged
     {
-        int stock { get; }
+        int stock { get; set; }
 
         int taxPerMonth { get; }
 

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Tais.GSessions;
@@ -7,6 +8,7 @@ public class MainScene : MonoBehaviour
 {
     public GameObject prefabEventPanel;
     public Canvas uiCanvas;
+    public DayTimer dayTimer;
 
     // Start is called before the first frame update
     void Start()
@@ -26,8 +28,11 @@ public class MainScene : MonoBehaviour
 
         foreach (var gEvent in EventManager.inst.OnDayInc(GSession.inst))
         {
-            var instance = (GameObject)Instantiate(prefabEventPanel, uiCanvas.transform);
-            instance.GetComponent<GEventPanel>().gEvent = gEvent;
+            var gEventPanel = Instantiate(prefabEventPanel, uiCanvas.transform).GetComponent<GEventPanel>();
+            gEventPanel.gEvent = gEvent;
+            gEventPanel.onDestory = () => dayTimer.isSysPause = false;
+
+            dayTimer.isSysPause = true;
         }
     }
 }
@@ -36,27 +41,63 @@ public class EventManager
 {
     public static EventManager inst = new EventManager();
 
-    internal IEnumerable<GEvent> OnDayInc(GSession inst)
+    private List<GEvent> gEvents = new List<GEvent>();
+
+    public EventManager()
     {
-        yield return new GEvent();
+        gEvents.Add(new GEvent());
+    }
+
+    public IEnumerable<IGEvent> OnDayInc(GSession inst)
+    {
+        foreach(var gEvent in gEvents)
+        {
+            if(gEvent.isTrigge())
+            {
+                yield return gEvent;
+            }
+        }
+
         yield break;
     }
 }
 
-public class GEvent
+public interface IGEvent
+{
+    string title { get; }
+    string desc { get; }
+
+    IEnumerable<IOption> options { get; }
+}
+
+public interface IOption
+{
+    string desc { get; }
+
+    void Do();
+}
+
+public class GEvent : IGEvent
 {
     public string title { get; private set; }
     public string desc { get; private set; }
 
-    public List<Option> options = new List<Option>();
+    public IEnumerable<IOption> options => _options;
 
-    public class Option
+    private List<IOption> _options = new List<IOption>();
+
+    public class Option : IOption
     {
         public string desc { get; private set; }
 
         public Option()
         {
             desc = "OPT_TEST";
+        }
+
+        public void Do()
+        {
+            GSession.inst.taxMgr.stock -= 300;
         }
     }
 
@@ -65,6 +106,11 @@ public class GEvent
         title = "TTTLE_TEST";
         desc = "DESC_TEST";
 
-        options.Add(new Option());
+        _options.Add(new Option());
+    }
+
+    public bool isTrigge()
+    {
+        return true;
     }
 }
