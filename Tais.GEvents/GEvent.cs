@@ -39,7 +39,7 @@ namespace Tais.GEvents
 
         public bool isTrigge()
         {
-            return true;
+            return GSession.inst.date.day == 30;
         }
 
     }
