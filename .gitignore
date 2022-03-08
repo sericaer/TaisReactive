@@ -81,8 +81,8 @@ crashlytics-build.properties
 /Tais.API/obj
 /Tais.GModders/bin
 /Tais.GModders/obj
-/Tais.RelationMgr/bin
-/Tais.RelationMgr/obj
+/Tais.GEvents/bin
+/Tais.GEvents/obj
 /Tais.Runtime/bin
 /Tais.Runtime/obj
 /Tais.GSessions/bin
