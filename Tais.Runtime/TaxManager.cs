@@ -47,7 +47,7 @@ namespace Tais.Runtime
             }
         }
 
-        public void AddTaxSourcePerMonth(ITaxSourcePerMonth departTax)
+        public void AddTaxSourcePerMonth(IDepartTaxSource departTax)
         {
             _taxSourcesPerMonth.Add(departTax);
         }

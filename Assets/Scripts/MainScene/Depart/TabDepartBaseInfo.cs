@@ -8,6 +8,8 @@ using UnityEngine.UI;
 class TabDepartBaseInfo : RxMonoBehaviour
 {
     public Text popCount;
+    public Text taxValue;
+
     public Toggle[] taxLevelToggles;
 
     public IDepart depart { get; set; }
@@ -16,8 +18,18 @@ class TabDepartBaseInfo : RxMonoBehaviour
     void Start()
     {
         dataBind.BindText(depart, x => x.popCount, popCount);
+        dataBind.BindText(depart, x => x.taxSource.value, taxValue);
 
-        foreach(var taxLevelToggle in taxLevelToggles)
+        var tipTaxSource = taxValue.GetComponent<LazyUpdateTooltipTrigger>();
+        tipTaxSource.funcGenerateTextInfo = () =>
+        {
+            var tipInfo = string.Join("\n", depart.taxSource.subSources.Items.Select(x => $"{x.label} {x.value}"));
+            return new (string, string)[] { ("BodyText", tipInfo) };
+        };
+
+        dataBind.BindAction(depart, x => x.taxLevel, (level) => { taxLevelToggles.Single(x => x.name == level.ToString()).isOn = true; });
+
+        foreach (var taxLevelToggle in taxLevelToggles)
         {
             taxLevelToggle.onValueChanged.RemoveAllListeners();
 
@@ -29,13 +41,8 @@ class TabDepartBaseInfo : RxMonoBehaviour
                     depart.taxLevel = level;
                 }
             });
-
-            //var tooltipTrigger = toggle.GetComponent<LazyUpdateTooltipTrigger>();
-            //tooltipTrigger.funcGenerateTextInfo = () => GetLevelTooltipInfo(toggle);
         }
 
-
-        dataBind.BindAction(depart, x => x.taxLevel, (level)=> { taxLevelToggles.Single(x => x.name == level.ToString()).isOn = true; });
     }
 
     // Update is called once per frame

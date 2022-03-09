@@ -16,7 +16,7 @@ namespace Tais.Runtime
 
         public IPopDef def { get; private set; }
 
-        public ITaxSource taxSource => _taxSource;
+        public IPopTaxSource taxSource => _taxSource;
 
         private TaxSource _taxSource;
 

@@ -39,7 +39,7 @@ namespace Tais.Runtime
             }
         }
 
-        public ITaxSourcePerMonth taxSource => _taxSource;
+        public IDepartTaxSource taxSource => _taxSource;
 
         public IObservableList<IPop> pops => _pops;
 

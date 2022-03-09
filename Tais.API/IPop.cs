@@ -7,7 +7,7 @@ namespace Tais.API
         string name { get; }
         int num { get; }
 
-        ITaxSource taxSource { get; }
+        IPopTaxSource taxSource { get; }
 
         void DayInc(IDate now);
     }

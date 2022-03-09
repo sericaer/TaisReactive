@@ -11,7 +11,7 @@ namespace Tais.Runtime
 {
     public partial class Pop
     {
-        private class TaxSource : ITaxSource
+        private class TaxSource : IPopTaxSource
         {
 #pragma warning disable 67
             public event PropertyChangedEventHandler PropertyChanged;
@@ -56,7 +56,7 @@ namespace Tais.Runtime
 
             private int CalcValue()
             {
-                return baseValue * (100 + effects.Items.Sum(x => x.value));
+                return baseValue * (100 + effects.Items.Sum(x => x.value)) / 100;
             }
 
             public void AddOrUpdateEffect(IEffect effect)

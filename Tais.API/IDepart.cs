@@ -14,7 +14,7 @@ namespace Tais.API
 
         DepartTaxLevel taxLevel { get; set; }
 
-        ITaxSourcePerMonth taxSource { get; }
+        IDepartTaxSource taxSource { get; }
 
         IObservableList<IPop> pops { get; }
 

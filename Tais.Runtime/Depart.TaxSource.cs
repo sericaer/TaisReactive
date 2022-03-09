@@ -8,7 +8,7 @@ namespace Tais.Runtime
 {
     public partial class Depart
     {
-        private class TaxSource : ITaxSourcePerMonth
+        private class TaxSource : IDepartTaxSource
         {
 
 #pragma warning disable 67
@@ -19,8 +19,9 @@ namespace Tais.Runtime
 
             public int value { get; private set; }
 
-            private IDisposable dispSubscribeVale;
+            public IObservableList<ITaxSource> subSources { get; }
 
+            private IDisposable dispSubscribeVale;
 
             private IDepart _depart;
 
@@ -28,17 +29,14 @@ namespace Tais.Runtime
             {
                 this._depart = depart;
 
-                _depart.pops.Connect().Subscribe(changes =>
+                subSources = depart.pops.Connect().Transform<IPop, ITaxSource>(x => x.taxSource).AsObservableList();
+
+                subSources.Connect().Subscribe(changes =>
                 {
                     dispSubscribeVale?.Dispose();
-                    dispSubscribeVale = depart.pops.Connect().WhenValueChanged(x => x.taxSource.value)
-                                                .Subscribe(_ => value = depart.pops.Items.Sum(x => x.taxSource.value));
+                    dispSubscribeVale = subSources.Connect().WhenValueChanged(x => x.value)
+                                                .Subscribe(_ => value = subSources.Items.Sum(x => x.value));
                 });
-            }
-
-            public void AddOrUpdateEffect(IEffect effect)
-            {
-                throw new NotImplementedException();
             }
         }
     }
