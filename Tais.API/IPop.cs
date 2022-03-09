@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using DynamicData;
+using System.ComponentModel;
 
 namespace Tais.API
 {
@@ -8,6 +9,10 @@ namespace Tais.API
         int num { get; }
 
         IPopTaxSource taxSource { get; }
+
+        ILiveliHood liveliHood { get; }
+
+        ISourceList<IPopBuffer> buffers { get; }
 
         void DayInc(IDate now);
     }

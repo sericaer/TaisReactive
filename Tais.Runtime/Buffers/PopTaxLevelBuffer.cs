@@ -3,9 +3,9 @@ using Tais.API;
 
 namespace Tais.Runtime.Buffers
 {
-    public class TaxLevelBuffer : IDepartBuffer
+    public class PopTaxLevelBuffer : IPopBuffer
     {
-        public int? popTaxEffect { get; private set; }
+        public int? taxEffect { get; private set; }
 
         public DepartTaxLevel taxLevel
         {
@@ -19,19 +19,19 @@ namespace Tais.Runtime.Buffers
                 switch(_taxLevel)
                 {
                     case DepartTaxLevel.VeryLow:
-                        popTaxEffect = -80;
+                        taxEffect = -80;
                         break;
                     case DepartTaxLevel.Low:
-                        popTaxEffect = -30;
+                        taxEffect = -30;
                         break;
                     case DepartTaxLevel.Mid:
-                        popTaxEffect = 00;
+                        taxEffect = 00;
                         break;
                     case DepartTaxLevel.High:
-                        popTaxEffect = +20;
+                        taxEffect = +20;
                         break;
                     case DepartTaxLevel.VeryHigh:
-                        popTaxEffect = +60;
+                        taxEffect = +60;
                         break;
                     default:
                         throw new Exception();
@@ -39,13 +39,11 @@ namespace Tais.Runtime.Buffers
             }
         }
 
-        private IDepart depart;
 
         private DepartTaxLevel _taxLevel;
 
-        public TaxLevelBuffer(IDepart depart, DepartTaxLevel taxLevel)
+        public PopTaxLevelBuffer(DepartTaxLevel taxLevel)
         {
-            this.depart = depart;
             this.taxLevel = taxLevel;
         }
 
@@ -53,7 +51,7 @@ namespace Tais.Runtime.Buffers
         {
             foreach(var pop in depart.pops.Items)
             {
-                pop.taxSource.AddOrUpdateEffect(new Effect(this, popTaxEffect.Value));
+                pop.taxSource.AddOrUpdateEffect(new Effect(this, taxEffect.Value));
             }
         }
 
@@ -68,7 +66,7 @@ namespace Tais.Runtime.Buffers
 
             foreach (var pop in depart.pops.Items)
             {
-                pop.taxSource.AddOrUpdateEffect(new Effect(this, popTaxEffect.Value));
+                pop.taxSource.AddOrUpdateEffect(new Effect(this, taxEffect.Value));
             }
         }
     }

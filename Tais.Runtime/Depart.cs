@@ -27,14 +27,17 @@ namespace Tais.Runtime
             {
                 _taxLevel = value;
 
-                var Buff = buffers.Items.SingleOrDefault(x => x is TaxLevelBuffer) as TaxLevelBuffer;
-                if(Buff == null)
+                foreach(var pop in pops.Items)
                 {
-                    buffers.Add(new TaxLevelBuffer(this, _taxLevel));
-                }
-                else
-                {
-                    Buff.ChangeLevel(_taxLevel);
+                    var Buff = pop.buffers.Items.SingleOrDefault(x => x is PopTaxLevelBuffer) as PopTaxLevelBuffer;
+                    if (Buff == null)
+                    {
+                        pop.buffers.Add(new PopTaxLevelBuffer(_taxLevel));
+                    }
+                    else
+                    {
+                        Buff.ChangeLevel(_taxLevel);
+                    }
                 }
             }
         }

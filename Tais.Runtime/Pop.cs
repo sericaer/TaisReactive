@@ -1,4 +1,6 @@
-﻿using System.ComponentModel;
+﻿using DynamicData;
+using System;
+using System.ComponentModel;
 using Tais.API;
 using Tais.API.Def;
 
@@ -18,14 +20,25 @@ namespace Tais.Runtime
 
         public IPopTaxSource taxSource => _taxSource;
 
+        public ILiveliHood liveliHood { get; }
+
+        public ISourceList<IPopBuffer> buffers { get; }
+
         private TaxSource _taxSource;
 
         public Pop(IPopDef def, int num)
         {
             this.def = def;
             this.num = num;
+            
+            buffers = new SourceList<IPopBuffer>();
 
             _taxSource = new TaxSource(this);
+
+            buffers.Connect().Subscribe(changeds =>
+            {
+                buffers.Connect().WhenPropertyChanged(x => x.taxEffect).Subscribe();
+            });
         }
 
         public void DayInc(IDate now)
