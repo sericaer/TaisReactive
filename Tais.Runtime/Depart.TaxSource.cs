@@ -15,21 +15,30 @@ namespace Tais.Runtime
             public event PropertyChangedEventHandler PropertyChanged;
 #pragma warning restore 67
 
-            public string label { get; private set; }
+            public string label => _depart.name;
 
             public int value { get; private set; }
 
             private IDisposable dispSubscribeVale;
+
+
+            private IDepart _depart;
+
             public TaxSource(Depart depart)
             {
-                this.label = depart.name;
+                this._depart = depart;
 
-                depart.pops.Connect().Subscribe(changes =>
+                _depart.pops.Connect().Subscribe(changes =>
                 {
                     dispSubscribeVale?.Dispose();
                     dispSubscribeVale = depart.pops.Connect().WhenValueChanged(x => x.taxSource.value)
                                                 .Subscribe(_ => value = depart.pops.Items.Sum(x => x.taxSource.value));
                 });
+            }
+
+            public void AddOrUpdateEffect(IEffect effect)
+            {
+                throw new NotImplementedException();
             }
         }
     }

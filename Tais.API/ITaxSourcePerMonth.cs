@@ -13,5 +13,7 @@ namespace Tais.API
     {
         string label { get; }
         int value { get; }
+
+        void AddOrUpdateEffect(IEffect effect);
     }
 }

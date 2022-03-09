@@ -12,10 +12,21 @@ namespace Tais.API
 
         int popCount { get; }
 
+        DepartTaxLevel taxLevel { get; set; }
+
         ITaxSourcePerMonth taxSource { get; }
 
         IObservableList<IPop> pops { get; }
 
         void DayInc();
+    }
+
+    public enum DepartTaxLevel
+    {
+        VeryLow,
+        Low,
+        Mid,
+        High,
+        VeryHigh
     }
 }
