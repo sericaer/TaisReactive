@@ -1,9 +1,11 @@
-﻿using ReactiveMarbles.PropertyChanged;
+﻿using DynamicData;
+using ReactiveMarbles.PropertyChanged;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Reactive.Disposables;
 using UnityEngine;
@@ -83,6 +85,12 @@ class DataBind
         comDisposable.Add(dispose);
 
         Debug.Log($"BindText {dispose.GetHashCode().ToString("X2")} {fromProperty.ToString()}");
+    }
+
+    public void BindObservableList<TCollectionItem>(IObservableList<TCollectionItem> collection, Action<TCollectionItem> onAdd, Action<TCollectionItem> onRemove)
+    {
+        comDisposable.Add(collection.Connect().OnItemAdded(onAdd).Subscribe());
+        comDisposable.Add(collection.Connect().OnItemRemoved(onAdd).Subscribe());
     }
 
     public void BindObservableCollection<TCollectionItem>(ObservableCollection<TCollectionItem> collection, Action<TCollectionItem> onAdd, Action<TCollectionItem> onRemove, Action<TCollectionItem, TCollectionItem> onReplace)
