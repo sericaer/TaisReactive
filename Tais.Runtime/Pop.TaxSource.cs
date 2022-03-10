@@ -35,9 +35,8 @@ namespace Tais.Runtime
 
             public int value { get; private set; }
 
-            private SourceCache<IEffect, object> effects = new SourceCache<IEffect, object>(x=>x.key);
+            public ISourceList<IEffect> effects { get; } = new SourceList<IEffect>();
 
-            private IDisposable dispEffectSubscribe;
 
             private int _baseValue;
 
@@ -49,8 +48,7 @@ namespace Tais.Runtime
 
                 effects.Connect().Subscribe(changeds =>
                 {
-                    dispEffectSubscribe?.Dispose();
-                    dispEffectSubscribe = effects.Connect().WhenValueChanged(x => x.value).Subscribe(_ => value = CalcValue());
+                    value = CalcValue();
                 });
             }
 
@@ -59,9 +57,19 @@ namespace Tais.Runtime
                 return baseValue * (100 + effects.Items.Sum(x => x.value)) / 100;
             }
 
-            public void AddOrUpdateEffect(IEffect effect)
+            public void AddEffect(IEffect effect)
             {
-                effects.AddOrUpdate(effect);
+                throw new NotImplementedException();
+            }
+
+            public void RemoveEffect()
+            {
+                throw new NotImplementedException();
+            }
+
+            public void ReplaceEffect(IEffect old, IEffect curr)
+            {
+                throw new NotImplementedException();
             }
         }
     }

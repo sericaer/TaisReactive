@@ -29,14 +29,16 @@ namespace Tais.Runtime
 
                 foreach(var pop in pops.Items)
                 {
-                    var Buff = pop.buffers.Items.SingleOrDefault(x => x is PopTaxLevelBuffer) as PopTaxLevelBuffer;
-                    if (Buff == null)
+                    var buff = new PopTaxLevelBuffer(_taxLevel);
+                    var old = pop.buffMgr.SingleOrDefault(x => x is PopTaxLevelBuffer) as PopTaxLevelBuffer;
+
+                    if (old == null)
                     {
-                        pop.buffers.Add(new PopTaxLevelBuffer(_taxLevel));
+                        pop.buffMgr.Add(buff);
                     }
                     else
                     {
-                        Buff.ChangeLevel(_taxLevel);
+                        pop.buffMgr.Replace(old, buff);
                     }
                 }
             }
@@ -68,25 +70,7 @@ namespace Tais.Runtime
 
                 foreach(var popAdded in changeds.Where(x=>x.Reason == ListChangeReason.Add).Select(x=>x.Item.Current))
                 {
-                    foreach (var buff in buffers.Items.Where(x => x.popTaxEffect != null))
-                    {
-                        popAdded.taxSource.AddOrUpdateEffect(new Effect(buff, buff.popTaxEffect.Value));
-                    }
-                }
-            });
-
-            buffers.Connect().Subscribe(changeds =>
-            {
-                foreach(var changed in changeds.Select(x=>x.Item))
-                {
-                    switch(changed.Reason)
-                    {
-                        case ListChangeReason.Add:
-                            changed.Current.OnAdd();
-                            break;
-                        default:
-                            throw new Exception();
-                    }
+                    popAdded.buffMgr.Add(new PopTaxLevelBuffer(_taxLevel));
                 }
             });
         }

@@ -12,8 +12,8 @@ namespace Tais.API
 
         ILiveliHood liveliHood { get; }
 
-        ISourceList<IPopBuffer> buffers { get; }
-
         void DayInc(IDate now);
+
+        IBufferManager buffMgr { get; }
     }
 }

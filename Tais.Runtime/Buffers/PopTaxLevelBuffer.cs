@@ -1,8 +1,10 @@
 ﻿using System;
+using System.ComponentModel;
 using Tais.API;
 
 namespace Tais.Runtime.Buffers
 {
+
     public class PopTaxLevelBuffer : IPopBuffer
     {
         public int? taxEffect { get; private set; }
@@ -45,29 +47,6 @@ namespace Tais.Runtime.Buffers
         public PopTaxLevelBuffer(DepartTaxLevel taxLevel)
         {
             this.taxLevel = taxLevel;
-        }
-
-        public void OnAdd()
-        {
-            foreach(var pop in depart.pops.Items)
-            {
-                pop.taxSource.AddOrUpdateEffect(new Effect(this, taxEffect.Value));
-            }
-        }
-
-        public void OnRemove()
-        {
-            throw new Exception();
-        }
-
-        public void ChangeLevel(DepartTaxLevel taxLevel)
-        {
-            this.taxLevel = taxLevel;
-
-            foreach (var pop in depart.pops.Items)
-            {
-                pop.taxSource.AddOrUpdateEffect(new Effect(this, taxEffect.Value));
-            }
         }
     }
 

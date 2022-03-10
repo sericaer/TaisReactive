@@ -2,7 +2,7 @@
 
 namespace Tais.API
 {
-    public interface IPopBuffer : INotifyPropertyChanged
+    public interface IPopBuffer
     {
         int? taxEffect { get; }
     }
