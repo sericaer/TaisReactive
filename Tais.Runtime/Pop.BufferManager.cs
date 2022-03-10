@@ -27,6 +27,10 @@ namespace Tais.Runtime
                 {
                     owner.taxSource.effects.Add(new Effect(buffer, buffer.taxEffect.Value));
                 }
+                if (buffer.liveliHoodEffect == 0 || buffer.liveliHoodEffect != null)
+                {
+                    owner.liveliHood.effects.Add(new Effect(buffer, buffer.liveliHoodEffect.Value));
+                }
             }
 
             public override void OnRemoved(IPopBuffer buffer)
@@ -41,7 +45,14 @@ namespace Tais.Runtime
                     var oldEffect = owner.taxSource.effects.Items.Single(x => x.key == old);
 
                     owner.taxSource.effects.Replace(oldEffect, new Effect(curr, curr.taxEffect.Value));
-                    return;
+
+                }
+                if (old.liveliHoodEffect != null && curr.liveliHoodEffect != null)
+                {
+                    var oldEffect = owner.liveliHood.effects.Items.Single(x => x.key == old);
+
+                    owner.liveliHood.effects.Replace(oldEffect, new Effect(curr, curr.liveliHoodEffect.Value));
+
                 }
             }
         }

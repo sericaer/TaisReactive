@@ -1,11 +1,12 @@
 ﻿using DynamicData;
+using System.ComponentModel;
 
 namespace Tais.API
 {
-    public interface ILiveliHood
+    public interface ILiveliHood : INotifyPropertyChanged
     {
         int value { get; }
 
-        IObservableList<IEffect> effects { get;  }
+        ISourceList<IEffect> effects { get;  }
     }
 }

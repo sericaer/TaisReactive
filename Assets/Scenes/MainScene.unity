@@ -1751,7 +1751,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07908f994cb363847a6cdc49e81dd611, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  departDetailParent: {fileID: 514006101}
   departDetail: {fileID: 3211940124165602284, guid: fde476cd06d442c45b1f6d85a5693463, type: 3}
 --- !u!114 &729357332
 MonoBehaviour:
@@ -1803,7 +1802,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07908f994cb363847a6cdc49e81dd611, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  departDetailParent: {fileID: 514006101}
   departDetail: {fileID: 0}
 --- !u!1 &775558686
 GameObject:

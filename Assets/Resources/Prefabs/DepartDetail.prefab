@@ -633,7 +633,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 5770275301287758329}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5540688822851306413}
+        m_TargetAssemblyTypeName: PopItem, Assembly-CSharp
+        m_MethodName: OnClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &5540688822851306413
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -648,6 +660,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   popName: {fileID: 8984931409768250658}
   popCount: {fileID: 2143150783023751836}
+  prefabDetail: {fileID: 306097770077282370, guid: c23e7680bda923c41a96a86a1419a156, type: 3}
 --- !u!114 &6900558030899556002
 MonoBehaviour:
   m_ObjectHideFlags: 0
