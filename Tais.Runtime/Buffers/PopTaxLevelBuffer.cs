@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using Tais.API;
+using Tais.API.Def;
 using Tais.Runtime.Effects;
 
 namespace Tais.Runtime.Buffers
@@ -10,17 +11,19 @@ namespace Tais.Runtime.Buffers
 
     public class PopTaxLevelBuffer : IPopBuffer
     {
-        public class TaxLevelDef
-        {
-            public Dictionary<DepartTaxLevel, (int taxEffect, int liveliHoodEffect)> dict = new Dictionary<DepartTaxLevel, (int taxEffect, int liveliHoodEffect)>()
-            {
-                { DepartTaxLevel.VeryLow, (taxEffect:-80, liveliHoodEffect:-1)},
-                { DepartTaxLevel.Low, (taxEffect:-30, liveliHoodEffect:-5)},
-                { DepartTaxLevel.Mid, (taxEffect:00,  liveliHoodEffect:-15)},
-                { DepartTaxLevel.High, (taxEffect:20,  liveliHoodEffect:-35)},
-                { DepartTaxLevel.VeryHigh, (taxEffect:60,  liveliHoodEffect:-60)}
-            };
-        }
+        //public class TaxLevelDef
+        //{
+        //    public Dictionary<DepartTaxLevel, (int taxEffect, int liveliHoodEffect)> dict = new Dictionary<DepartTaxLevel, (int taxEffect, int liveliHoodEffect)>()
+        //    {
+        //        { DepartTaxLevel.VeryLow, (taxEffect:-80, liveliHoodEffect:-1)},
+        //        { DepartTaxLevel.Low, (taxEffect:-30, liveliHoodEffect:-5)},
+        //        { DepartTaxLevel.Mid, (taxEffect:00,  liveliHoodEffect:-15)},
+        //        { DepartTaxLevel.High, (taxEffect:20,  liveliHoodEffect:-35)},
+        //        { DepartTaxLevel.VeryHigh, (taxEffect:60,  liveliHoodEffect:-60)}
+        //    };
+        //}
+
+        public static ITaxLevelDef def { get; set; }
 
         public DepartTaxLevel taxLevel
         {
@@ -32,16 +35,13 @@ namespace Tais.Runtime.Buffers
             {
                 _taxLevel = value;
 
-                effects = new IEffect[] {
-                    new PopTaxEffect(def.dict[_taxLevel].taxEffect, this),
-                    new PopLiveliHoodEffect(def.dict[_taxLevel].liveliHoodEffect, this),
-                };
+                effects = def.dict[_taxLevel].Select(p => EffectBuilder.Build(p.Key, p.Value, this));
             }
         }
 
         public IPop owner { get; }
 
-        private TaxLevelDef def = new TaxLevelDef();
+        //private TaxLevelDef def = new TaxLevelDef();
 
         public IEnumerable<IEffect> effects { get; private set; }
 
@@ -75,11 +75,6 @@ namespace Tais.Runtime.Buffers
         public override int GetHashCode()
         {
             return owner.GetHashCode();
-        }
-
-        public string GetDesc()
-        {
-            throw new NotImplementedException();
         }
     }
 

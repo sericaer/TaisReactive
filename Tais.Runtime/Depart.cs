@@ -30,17 +30,6 @@ namespace Tais.Runtime
                 foreach(var pop in pops.Items)
                 {
                     pop.buffMgr.AddOrUpdate(new PopTaxLevelBuffer(_taxLevel, pop));
-
-                    //var old = pop.buffMgr.SingleOrDefault(x => x is PopTaxLevelBuffer) as PopTaxLevelBuffer;
-
-                    //if (old == null)
-                    //{
-                    //    pop.buffMgr.Add(buff);
-                    //}
-                    //else
-                    //{
-                    //    pop.buffMgr.Replace(old, buff);
-                    //}
                 }
             }
         }

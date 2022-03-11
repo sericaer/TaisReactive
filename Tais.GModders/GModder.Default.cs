@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using Tais.API.Def;
 
 namespace Tais.GModders
 {
@@ -15,6 +14,8 @@ namespace Tais.GModders
                 var defs = new Defs();
                 rslt.defs = defs;
 
+                defs.popTaxLevelDef = TaxLevelDef.Default;
+                
                 for(int i=0; i<3; i++)
                 {
                     var popDef = new PopDef();

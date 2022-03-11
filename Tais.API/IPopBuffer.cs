@@ -13,4 +13,11 @@ namespace Tais.API
         //int? taxEffect { get; }
         //int? liveliHoodEffect { get; }
     }
+
+    public enum EffectEnum
+    {
+        PopTax,
+        PopLiveliHood
+    }
+
 }
