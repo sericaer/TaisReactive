@@ -38,11 +38,14 @@ namespace Tais.Runtime
 
         public IObservableList<IPop> pops => _pops;
 
+        public int farmTotal { get; private set; }
+
         public SourceList<IDepartBuffer> buffers = new SourceList<IDepartBuffer>();
 
         private SourceList<IPop> _pops = new SourceList<IPop>();
 
         private IDisposable dispPopCountSubScrible;
+        private IDisposable dispfarmToalSubScrible;
 
         private DepartTaxLevel _taxLevel;
 
@@ -56,9 +59,12 @@ namespace Tais.Runtime
             pops.Connect().Subscribe(changeds =>
             {
                 dispPopCountSubScrible?.Dispose();
-                dispPopCountSubScrible = pops.Connect().WhenValueChanged(x=>x.num).Subscribe(_ => popCount = pops.Items.Sum(x => x.num));
+                dispfarmToalSubScrible?.Dispose();
 
-                foreach(var popAdded in changeds.Where(x=>x.Reason == ListChangeReason.Add).Select(x=>x.Item.Current))
+                dispPopCountSubScrible = pops.Connect().WhenValueChanged(x=>x.num).Subscribe(_ => popCount = pops.Items.Sum(x => x.num));
+                dispfarmToalSubScrible = pops.Connect().WhenValueChanged(x => x.farmTotal).Subscribe(_ => farmTotal = pops.Items.Sum(x => x.farmTotal));
+
+                foreach (var popAdded in changeds.Where(x=>x.Reason == ListChangeReason.Add).Select(x=>x.Item.Current))
                 {
                     popAdded.buffMgr.AddOrUpdate(new PopTaxLevelBuffer(_taxLevel, popAdded));
                 }

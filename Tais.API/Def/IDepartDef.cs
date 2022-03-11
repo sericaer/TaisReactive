@@ -6,6 +6,14 @@ namespace Tais.API.Def
     {
         string name { get; }
 
-        IEnumerable<(IPopDef def, int num)> popInits { get; }
+        IEnumerable<PopInit> popInits { get; }
+    }
+
+    public class PopInit
+    {
+        public IPopDef pop;
+
+        public int num;
+        public int farmAverage;
     }
 }

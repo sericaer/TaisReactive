@@ -35,7 +35,7 @@ namespace Tais.GSessions
 
                     foreach(var popInit in departDef.popInits)
                     {
-                        var pop = inst.popMgr.Create(popInit.def, popInit.num);
+                        var pop = inst.popMgr.Create(popInit);
                         depart.AddPop(pop);
                     }
 

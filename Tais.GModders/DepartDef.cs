@@ -7,8 +7,8 @@ namespace Tais.GModders
     {
         public string name { get; internal set; }
 
-        public IEnumerable<(IPopDef def, int num)> popInits => _popInits;
+        public IEnumerable<PopInit> popInits => _popInits;
 
-        internal List<(IPopDef def, int num)> _popInits = new List<(IPopDef def, int num)>();
+        internal List<PopInit> _popInits = new List<PopInit>();
     }
 }

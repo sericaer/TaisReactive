@@ -13,7 +13,7 @@ namespace Tais.API
 
         IObservableList<IPop> pops { get; }
 
-        IPop Create(IPopDef def, int count);
         void DayInc(IDate now);
+        IPop Create(PopInit popInit);
     }
 }

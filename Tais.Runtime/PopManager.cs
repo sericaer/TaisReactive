@@ -33,21 +33,21 @@ namespace Tais.Runtime
             });
         }
 
-        public IPop Create(IPopDef def, int count)
-        {
-            var pop = new Pop(def, count);
-
-            _pops.Add(pop);
-
-            return pop;
-        }
-
         public void DayInc(IDate now)
         {
             foreach (var pop in pops.Items)
             {
                 pop.DayInc(now);
             }
+        }
+
+        public IPop Create(PopInit popInit)
+        {
+            var pop = new Pop(popInit.pop, popInit.num, popInit.farmAverage);
+
+            _pops.Add(pop);
+
+            return pop;
         }
     }
 }

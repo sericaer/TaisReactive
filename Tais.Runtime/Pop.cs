@@ -26,17 +26,21 @@ namespace Tais.Runtime
 
         public ILiveliHood liveliHood => _liveliHood;
 
+        public int farmTotal { get; set; }
+
+        public int farmAverage => farmTotal / num;
+
         private TaxSource _taxSource;
 
         private LiveliHood _liveliHood;
 
-
         private ISourceCache<IPopBuffer, IPopBuffer> buffers = new SourceCache<IPopBuffer, IPopBuffer>(x => x);
 
-        public Pop(IPopDef def, int num)
+        public Pop(IPopDef def, int num, int farmAverage)
         {
             this.def = def;
             this.num = num;
+            this.farmTotal = farmAverage * num;
 
             buffMgr = new BufferManager(this);
 

@@ -12,6 +12,8 @@ class PopDetail : RxMonoBehaviour
     public Text popCount;
     public Text popTax;
     public Text popLiveliHood;
+    public Text farmTotal;
+    public Text farmAverage;
 
     public IPop pop;
 
@@ -24,6 +26,8 @@ class PopDetail : RxMonoBehaviour
         defaultBufferItem.gameObject.SetActive(false);
 
         dataBind.BindText(pop, x => x.num, popCount);
+        dataBind.BindText(pop, x => x.farmTotal, farmTotal);
+        dataBind.BindText(pop, x => x.farmAverage, farmAverage);
         dataBind.BindText(pop.taxSource, x => x.value, popTax);
         dataBind.BindText(pop.liveliHood, x => x.value, popLiveliHood);
 

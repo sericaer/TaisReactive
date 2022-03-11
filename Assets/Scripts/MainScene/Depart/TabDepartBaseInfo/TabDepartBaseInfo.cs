@@ -9,6 +9,7 @@ class TabDepartBaseInfo : RxMonoBehaviour
 {
     public Text popCount;
     public Text taxValue;
+    public Text farmTotal;
 
     public Toggle[] taxLevelToggles;
 
@@ -24,8 +25,10 @@ class TabDepartBaseInfo : RxMonoBehaviour
         defaultPopItem.SetActive(false);
 
         dataBind.BindText(depart, x => x.popCount, popCount);
-        dataBind.BindText(depart, x => x.taxSource.value, taxValue);
+        dataBind.BindText(depart, x => x.farmTotal, farmTotal);
+        dataBind.BindText(depart.taxSource, x => x.value, taxValue);
         dataBind.BindAction(depart, x => x.taxLevel, (level) => { taxLevelToggles.Single(x => x.name == level.ToString()).isOn = true; });
+            
         dataBind.BindObservableList(depart.pops, OnAddPop, OnRemovePop);
 
         var tipTaxSource = taxValue.GetComponent<LazyUpdateTooltipTrigger>();

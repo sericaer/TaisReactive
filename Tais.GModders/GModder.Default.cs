@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Tais.API.Def;
 
 namespace Tais.GModders
 {
@@ -29,9 +30,14 @@ namespace Tais.GModders
                     var departDef = new DepartDef();
                     departDef.name = $"DEPART_{i}";
 
-                    for(int j=0; j<3; j++)
+                    for (int j = 0; j < 3; j++)
                     {
-                        departDef._popInits.Add((defs.popDefs.ElementAt(j), (j+1)*10000));
+                        departDef._popInits.Add(new PopInit()
+                        {
+                            pop = defs.popDefs.ElementAt(j),
+                            num = (j + 1) * 10000,
+                            farmAverage = (10 - j * j)
+                        });
                     }
 
                     defs._departDefs.Add(departDef);

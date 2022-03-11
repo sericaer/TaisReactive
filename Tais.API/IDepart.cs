@@ -12,6 +12,7 @@ namespace Tais.API
 
         int popCount { get; }
 
+        int farmTotal { get; }
         DepartTaxLevel taxLevel { get; set; }
 
         IDepartTaxSource taxSource { get; }
