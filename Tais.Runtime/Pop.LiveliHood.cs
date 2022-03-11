@@ -10,8 +10,9 @@ namespace Tais.Runtime
     {
         public class LiveliHood : ILiveliHood
         {
-
+#pragma warning disable 0067 // No "Never used" warning
             public event PropertyChangedEventHandler PropertyChanged;
+#pragma warning restore 0067
 
             public int value { get; private set; }
 

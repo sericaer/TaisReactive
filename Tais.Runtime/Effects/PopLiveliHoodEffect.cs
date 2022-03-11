@@ -9,6 +9,8 @@ namespace Tais.Runtime.Effects
 
         public int value { get; }
 
+        public string desc => $"PopLiveliHood {value.ToString("+0;-#")}";
+
         public PopLiveliHoodEffect(int effectValue, object from)
         {
             this.from = from;

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using Tais.API;
 using Tais.Runtime.Effects;
 
@@ -44,6 +45,14 @@ namespace Tais.Runtime.Buffers
 
         public IEnumerable<IEffect> effects { get; private set; }
 
+        public string desc 
+        { 
+            get
+            {
+                return string.Join("\n", effects.Select(x => x.desc));
+            }
+        }
+
         private DepartTaxLevel _taxLevel;
 
 
@@ -66,6 +75,11 @@ namespace Tais.Runtime.Buffers
         public override int GetHashCode()
         {
             return owner.GetHashCode();
+        }
+
+        public string GetDesc()
+        {
+            throw new NotImplementedException();
         }
     }
 

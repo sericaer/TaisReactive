@@ -9,6 +9,7 @@ namespace Tais.Runtime.Effects
 
         public int value { get; }
 
+        public string desc => $"PopTax {value.ToString("+0;-#")}%";
         public PopTaxEffect(int effectValue, object from)
         {
             this.from = from;
