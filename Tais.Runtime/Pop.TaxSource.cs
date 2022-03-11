@@ -35,7 +35,7 @@ namespace Tais.Runtime
 
             public int value { get; private set; }
 
-            public ISourceList<IEffect> effects { get; } = new SourceList<IEffect>();
+            public ISourceCache<IEffect, object> effects { get; } = new SourceCache<IEffect, object>(x=>x.from);
 
 
             private int _baseValue;

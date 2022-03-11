@@ -1,15 +1,25 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using Tais.API;
+using Tais.Runtime.Effects;
 
 namespace Tais.Runtime.Buffers
 {
 
     public class PopTaxLevelBuffer : IPopBuffer
     {
-        public int? taxEffect { get; private set; }
-
-        public int? liveliHoodEffect { get; private set; }
+        public class TaxLevelDef
+        {
+            public Dictionary<DepartTaxLevel, (int taxEffect, int liveliHoodEffect)> dict = new Dictionary<DepartTaxLevel, (int taxEffect, int liveliHoodEffect)>()
+            {
+                { DepartTaxLevel.VeryLow, (taxEffect:-80, liveliHoodEffect:-1)},
+                { DepartTaxLevel.Low, (taxEffect:-30, liveliHoodEffect:-5)},
+                { DepartTaxLevel.Mid, (taxEffect:00,  liveliHoodEffect:-15)},
+                { DepartTaxLevel.High, (taxEffect:20,  liveliHoodEffect:-35)},
+                { DepartTaxLevel.VeryHigh, (taxEffect:60,  liveliHoodEffect:-60)}
+            };
+        }
 
         public DepartTaxLevel taxLevel
         {
@@ -20,41 +30,42 @@ namespace Tais.Runtime.Buffers
             set
             {
                 _taxLevel = value;
-                switch(_taxLevel)
-                {
-                    case DepartTaxLevel.VeryLow:
-                        taxEffect = -80;
-                        liveliHoodEffect = -1;
-                        break;
-                    case DepartTaxLevel.Low:
-                        taxEffect = -30;
-                        liveliHoodEffect = -5;
-                        break;
-                    case DepartTaxLevel.Mid:
-                        taxEffect = 00;
-                        liveliHoodEffect = -15;
-                        break;
-                    case DepartTaxLevel.High:
-                        taxEffect = +20;
-                        liveliHoodEffect = -35;
-                        break;
-                    case DepartTaxLevel.VeryHigh:
-                        taxEffect = +60;
-                        liveliHoodEffect = -60;
-                        break;
-                    default:
-                        throw new Exception();
-                }
+
+                effects = new IEffect[] {
+                    new PopTaxEffect(def.dict[_taxLevel].taxEffect, this),
+                    new PopLiveliHoodEffect(def.dict[_taxLevel].liveliHoodEffect, this),
+                };
             }
         }
 
+        public IPop owner { get; }
 
+        private TaxLevelDef def = new TaxLevelDef();
+
+        public IEnumerable<IEffect> effects { get; private set; }
 
         private DepartTaxLevel _taxLevel;
 
-        public PopTaxLevelBuffer(DepartTaxLevel taxLevel)
+
+        public PopTaxLevelBuffer(DepartTaxLevel taxLevel, IPop owner)
         {
             this.taxLevel = taxLevel;
+            this.owner = owner;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if(obj is PopTaxLevelBuffer peer)
+            {
+                return peer.owner == owner;
+            }
+
+            return false;
+        }
+
+        public override int GetHashCode()
+        {
+            return owner.GetHashCode();
         }
     }
 

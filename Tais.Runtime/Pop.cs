@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DynamicData;
+using System;
 using System.ComponentModel;
 using System.Linq.Expressions;
 using Tais.API;
@@ -21,7 +22,7 @@ namespace Tais.Runtime
 
         public IPopTaxSource taxSource => _taxSource;
 
-        public IBufferManager buffMgr => _buffMgr;
+        public IBufferManager buffMgr { get; }
 
         public ILiveliHood liveliHood => _liveliHood;
 
@@ -29,17 +30,18 @@ namespace Tais.Runtime
 
         private LiveliHood _liveliHood;
 
-        private BufferManager _buffMgr;
+
+        private ISourceCache<IPopBuffer, IPopBuffer> buffers = new SourceCache<IPopBuffer, IPopBuffer>(x => x);
 
         public Pop(IPopDef def, int num)
         {
             this.def = def;
             this.num = num;
 
-            _taxSource = new TaxSource(this);
-            _buffMgr = new BufferManager(this);
-            _liveliHood = new LiveliHood();
+            buffMgr = new BufferManager(this);
 
+            _taxSource = new TaxSource(this);
+            _liveliHood = new LiveliHood();
         }
 
         public void DayInc(IDate now)

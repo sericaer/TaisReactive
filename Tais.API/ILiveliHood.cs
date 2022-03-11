@@ -7,6 +7,6 @@ namespace Tais.API
     {
         int value { get; }
 
-        ISourceList<IEffect> effects { get;  }
+        ISourceCache<IEffect, object> effects { get;  }
     }
 }

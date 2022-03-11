@@ -10,9 +10,12 @@ namespace Tais.Runtime
     {
         public class LiveliHood : ILiveliHood
         {
+
+            public event PropertyChangedEventHandler PropertyChanged;
+
             public int value { get; private set; }
 
-            public ISourceList<IEffect> effects { get; } = new SourceList<IEffect>();
+            public ISourceCache<IEffect, object> effects { get; } = new SourceCache<IEffect, object>(x=>x.from);
 
             public LiveliHood()
             {
@@ -22,7 +25,6 @@ namespace Tais.Runtime
                 });
             }
 
-            public event PropertyChangedEventHandler PropertyChanged;
         }
     }
 }

@@ -29,17 +29,18 @@ namespace Tais.Runtime
 
                 foreach(var pop in pops.Items)
                 {
-                    var buff = new PopTaxLevelBuffer(_taxLevel);
-                    var old = pop.buffMgr.SingleOrDefault(x => x is PopTaxLevelBuffer) as PopTaxLevelBuffer;
+                    pop.buffMgr.AddOrUpdate(new PopTaxLevelBuffer(_taxLevel, pop));
 
-                    if (old == null)
-                    {
-                        pop.buffMgr.Add(buff);
-                    }
-                    else
-                    {
-                        pop.buffMgr.Replace(old, buff);
-                    }
+                    //var old = pop.buffMgr.SingleOrDefault(x => x is PopTaxLevelBuffer) as PopTaxLevelBuffer;
+
+                    //if (old == null)
+                    //{
+                    //    pop.buffMgr.Add(buff);
+                    //}
+                    //else
+                    //{
+                    //    pop.buffMgr.Replace(old, buff);
+                    //}
                 }
             }
         }
@@ -70,7 +71,7 @@ namespace Tais.Runtime
 
                 foreach(var popAdded in changeds.Where(x=>x.Reason == ListChangeReason.Add).Select(x=>x.Item.Current))
                 {
-                    popAdded.buffMgr.Add(new PopTaxLevelBuffer(_taxLevel));
+                    popAdded.buffMgr.AddOrUpdate(new PopTaxLevelBuffer(_taxLevel, popAdded));
                 }
             });
         }

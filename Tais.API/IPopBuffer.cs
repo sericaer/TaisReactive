@@ -1,10 +1,14 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace Tais.API
 {
     public interface IPopBuffer
     {
-        int? taxEffect { get; }
-        int? liveliHoodEffect { get; }
+        IPop owner { get; }
+        IEnumerable<IEffect> effects { get; }
+
+        //int? taxEffect { get; }
+        //int? liveliHoodEffect { get; }
     }
 }

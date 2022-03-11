@@ -2,9 +2,12 @@
 
 namespace Tais.API
 {
-    public interface IEffect : INotifyPropertyChanged
+    public interface IEffect
     {
-        object key { get; }
-        int value { get; set; }
+        object from { get; }
+
+        int value { get; }
+
+        void AddOrUpdate(object target);
     }
 }
