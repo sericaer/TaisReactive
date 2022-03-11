@@ -8,6 +8,8 @@ using DynamicData;
 
 class PopDetail : RxMonoBehaviour
 {
+    public Text popCount;
+    public Text popTax;
     public Text liveliHood;
 
     public IPop pop;
@@ -20,6 +22,8 @@ class PopDetail : RxMonoBehaviour
     {
         defaultBufferItem.gameObject.SetActive(false);
 
+        dataBind.BindText(pop, x => x.num, popCount);
+        dataBind.BindText(pop.taxSource, x => x.value, popTax);
         dataBind.BindText(pop.liveliHood, x => x.value, liveliHood);
 
         dataBind.BindObservableList(pop.buffMgr.buffers.Connect().RemoveKey().AsObservableList(), OnAddBuffer, OnRemoveBuffer);
