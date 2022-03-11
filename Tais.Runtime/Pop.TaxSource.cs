@@ -56,21 +56,6 @@ namespace Tais.Runtime
             {
                 return baseValue * (100 + effects.Items.Sum(x => x.value)) / 100;
             }
-
-            public void AddEffect(IEffect effect)
-            {
-                throw new NotImplementedException();
-            }
-
-            public void RemoveEffect()
-            {
-                throw new NotImplementedException();
-            }
-
-            public void ReplaceEffect(IEffect old, IEffect curr)
-            {
-                throw new NotImplementedException();
-            }
         }
     }
 }

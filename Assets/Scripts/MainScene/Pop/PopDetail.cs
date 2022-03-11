@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Tais.API;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,7 +11,7 @@ class PopDetail : RxMonoBehaviour
 {
     public Text popCount;
     public Text popTax;
-    public Text liveliHood;
+    public Text popLiveliHood;
 
     public IPop pop;
 
@@ -24,9 +25,25 @@ class PopDetail : RxMonoBehaviour
 
         dataBind.BindText(pop, x => x.num, popCount);
         dataBind.BindText(pop.taxSource, x => x.value, popTax);
-        dataBind.BindText(pop.liveliHood, x => x.value, liveliHood);
+        dataBind.BindText(pop.liveliHood, x => x.value, popLiveliHood);
 
         dataBind.BindObservableList(pop.buffMgr.buffers.Connect().RemoveKey().AsObservableList(), OnAddBuffer, OnRemoveBuffer);
+
+
+        var tipTax = popTax.GetComponent<LazyUpdateTooltipTrigger>();
+        tipTax.funcGenerateTextInfo = () =>
+        {
+            return new (string, string)[] { ("BodyText", 
+                $"BaseValue {pop.taxSource.baseValue}" 
+                + "\n\n"
+                + string.Join("\n", pop.taxSource.effects.Items.Select(x => $"{x.from.GetType().Name} {x.value}"))) };
+        };
+
+        var tipLive = popLiveliHood.GetComponent<LazyUpdateTooltipTrigger>();
+        tipLive.funcGenerateTextInfo = () =>
+        {
+            return new (string, string)[] { ("BodyText", string.Join("\n", pop.liveliHood.effects.Items.Select(x=> $"{x.from.GetType().Name} {x.value}"))) };
+        };
     }
 
     private void OnRemoveBuffer(IPopBuffer buffer)

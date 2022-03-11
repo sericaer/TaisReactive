@@ -19,11 +19,7 @@ namespace Tais.API
 
     public interface IPopTaxSource : ITaxSource
     {
+        int baseValue { get; }
         ISourceCache<IEffect, object> effects { get; }
-
-        void AddEffect(IEffect effect);
-        void RemoveEffect();
-
-        void ReplaceEffect(IEffect old, IEffect curr);
     }
 }
