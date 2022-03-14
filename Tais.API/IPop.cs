@@ -13,6 +13,8 @@ namespace Tais.API
 
         int farmAverage { get; }
 
+        TaxLevel taxLevel { get; set; }
+
         IPopTaxSource taxSource { get; }
 
         ILiveliHood liveliHood { get; }

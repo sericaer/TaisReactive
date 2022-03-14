@@ -24,7 +24,7 @@ namespace Tais.Runtime.Buffers
 
             foreach (var effect in buffer.effects)
             {
-                effect.AddOrUpdate(owner);
+                effect.SetTarget(owner);
             }
         }
 

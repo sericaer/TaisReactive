@@ -44,7 +44,7 @@ class TabDepartBaseInfo : RxMonoBehaviour
 
             taxLevelToggle.onValueChanged.AddListener((isOn) =>
             {
-                var level = (DepartTaxLevel)Enum.Parse(typeof(DepartTaxLevel), taxLevelToggle.name);
+                var level = (TaxLevel)Enum.Parse(typeof(TaxLevel), taxLevelToggle.name);
                 if (depart.taxLevel != level)
                 {
                     depart.taxLevel = level;

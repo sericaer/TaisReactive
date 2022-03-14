@@ -40,13 +40,13 @@ class PopDetail : RxMonoBehaviour
             return new (string, string)[] { ("BodyText", 
                 $"BaseValue {pop.taxSource.baseValue}" 
                 + "\n\n"
-                + string.Join("\n", pop.taxSource.effects.Items.Select(x => $"{x.from.GetType().Name} {x.value}"))) };
+                + string.Join("\n", pop.taxSource.effects.Items.Select(x => $"{x.from.ToString()} {x.value}"))) };
         };
 
         var tipLive = popLiveliHood.GetComponent<LazyUpdateTooltipTrigger>();
         tipLive.funcGenerateTextInfo = () =>
         {
-            return new (string, string)[] { ("BodyText", string.Join("\n", pop.liveliHood.effects.Items.Select(x=> $"{x.from.GetType().Name} {x.value}"))) };
+            return new (string, string)[] { ("BodyText", string.Join("\n", pop.liveliHood.effects.Items.Select(x=> $"{x.from.ToString()} {x.value}"))) };
         };
     }
 

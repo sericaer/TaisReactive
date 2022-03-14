@@ -4,8 +4,9 @@ using System.Text;
 
 namespace Tais.API.Def
 {
-    public interface ITaxLevelDef
+    public interface IEffectDef
     {
-        Dictionary<TaxLevel, IEnumerable<IEffectDef>> dict { get; }
+        int effectValue { get; }
+        IEffect Generate(object from);
     }
 }

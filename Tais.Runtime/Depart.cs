@@ -17,7 +17,7 @@ namespace Tais.Runtime
 
         public int popCount { get; private set; }
 
-        public DepartTaxLevel taxLevel
+        public TaxLevel taxLevel
         {
             get
             {
@@ -29,7 +29,7 @@ namespace Tais.Runtime
 
                 foreach(var pop in pops.Items)
                 {
-                    pop.buffMgr.AddOrUpdate(new PopTaxLevelBuffer(_taxLevel, pop));
+                    pop.taxLevel = _taxLevel;
                 }
             }
         }
@@ -47,7 +47,7 @@ namespace Tais.Runtime
         private IDisposable dispPopCountSubScrible;
         private IDisposable dispfarmToalSubScrible;
 
-        private DepartTaxLevel _taxLevel;
+        private TaxLevel _taxLevel;
 
         private TaxSource _taxSource;
 
@@ -66,7 +66,7 @@ namespace Tais.Runtime
 
                 foreach (var popAdded in changeds.Where(x=>x.Reason == ListChangeReason.Add).Select(x=>x.Item.Current))
                 {
-                    popAdded.buffMgr.AddOrUpdate(new PopTaxLevelBuffer(_taxLevel, popAdded));
+                    popAdded.taxLevel = _taxLevel;
                 }
             });
         }

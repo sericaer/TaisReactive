@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Tais.API.Def;
+using Tais.GModders.Effects;
 
 namespace Tais.GModders
 {
@@ -21,6 +22,12 @@ namespace Tais.GModders
                 {
                     var popDef = new PopDef();
                     popDef.name = $"POP_{i}";
+                    popDef.taxLevelEffect = TaxLevelDef.Default.dict;
+
+                    popDef.GetFarmAverageEffectLevel = (average) =>
+                    {
+                        return new IEffectDef[] { (new PopLiveliHoodEffectDef(average * 10)) };
+                    };
 
                     defs._popDefs.Add(popDef);
                 }

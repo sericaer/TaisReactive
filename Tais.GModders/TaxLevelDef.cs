@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Tais.API;
 using Tais.API.Def;
+using Tais.GModders.Effects;
 
 namespace Tais.GModders
 {
@@ -8,17 +9,17 @@ namespace Tais.GModders
     {
         public class TaxLevelDef : ITaxLevelDef
         {
-            public Dictionary<DepartTaxLevel, Dictionary<EffectEnum, int>> dict { get; private set; }
+            public Dictionary<TaxLevel, IEnumerable<IEffectDef>> dict { get; private set; }
 
             public static TaxLevelDef Default = new TaxLevelDef()
             {
-                dict = new Dictionary<DepartTaxLevel, Dictionary<EffectEnum, int>>()
+                dict = new Dictionary<TaxLevel, IEnumerable<IEffectDef>>()
                 {
-                    { DepartTaxLevel.VeryLow,  new Dictionary<EffectEnum, int>(){ { EffectEnum.PopTax, -80 }, { EffectEnum.PopLiveliHood, -1} } },
-                    { DepartTaxLevel.Low,      new Dictionary<EffectEnum, int>(){ { EffectEnum.PopTax, -30 }, { EffectEnum.PopLiveliHood, -5} } },
-                    { DepartTaxLevel.Mid,      new Dictionary<EffectEnum, int>(){ { EffectEnum.PopTax, 00 },  { EffectEnum.PopLiveliHood, -15} } },
-                    { DepartTaxLevel.High,     new Dictionary<EffectEnum, int>(){ { EffectEnum.PopTax, 20 },  { EffectEnum.PopLiveliHood, -35} } },
-                    { DepartTaxLevel.VeryHigh, new Dictionary<EffectEnum, int>(){ { EffectEnum.PopTax, 60 },  { EffectEnum.PopLiveliHood, -60} } }
+                    { TaxLevel.VeryLow,  new IEffectDef[]{ new PopTaxEffectDef(-80), new PopLiveliHoodEffectDef(-1)} },
+                    { TaxLevel.Low,      new IEffectDef[]{ new PopTaxEffectDef(-30), new PopLiveliHoodEffectDef(-5)} },
+                    { TaxLevel.Mid,      new IEffectDef[]{ new PopTaxEffectDef(00), new PopLiveliHoodEffectDef(-15)} },
+                    { TaxLevel.High,     new IEffectDef[]{ new PopTaxEffectDef(20), new PopLiveliHoodEffectDef(-35)} },
+                    { TaxLevel.VeryHigh, new IEffectDef[]{ new PopTaxEffectDef(60), new PopLiveliHoodEffectDef(-60)} }
                 }
             };
         }

@@ -15,7 +15,7 @@ namespace Tais.GSessions
             {
                 inst = new GSession();
 
-                inst.global = new Global(defs);
+                //inst.global = new Global(defs);
 
                 inst.date = new Date();
                 inst.player = new Person("Person0");

@@ -1,4 +1,5 @@
 ﻿using DynamicData;
+using DynamicData.Binding;
 using System;
 using System.ComponentModel;
 using System.Linq.Expressions;
@@ -30,11 +31,14 @@ namespace Tais.Runtime
 
         public int farmAverage => farmTotal / num;
 
+        public TaxLevel taxLevel { get; set; }
+
         private TaxSource _taxSource;
 
         private LiveliHood _liveliHood;
 
         private ISourceCache<IPopBuffer, IPopBuffer> buffers = new SourceCache<IPopBuffer, IPopBuffer>(x => x);
+
 
         public Pop(IPopDef def, int num, int farmAverage)
         {
@@ -45,7 +49,28 @@ namespace Tais.Runtime
             buffMgr = new BufferManager(this);
 
             _taxSource = new TaxSource(this);
+
             _liveliHood = new LiveliHood();
+
+            this.WhenValueChanged(x=>x.taxLevel).Subscribe(level =>
+            {
+                foreach (var effectDef in def.taxLevelEffect[level])
+                {
+                    var effect = effectDef.Generate("POP_TAX_LEVEl");
+
+                    effect.SetTarget(this);
+                }
+            });
+
+            this.WhenValueChanged(x => x.farmAverage).Subscribe(average =>
+             {
+                 foreach (var effectDef in def.GetFarmAverageEffectLevel(average))
+                 {
+                     var effect = effectDef.Generate("POP_FARM");
+
+                     effect.SetTarget(this);
+                 }
+             });
         }
 
         public void DayInc(IDate now)

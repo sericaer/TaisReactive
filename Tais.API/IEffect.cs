@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 
 namespace Tais.API
 {
@@ -7,8 +8,9 @@ namespace Tais.API
         object from { get; }
 
         int value { get; }
+
         string desc { get; }
 
-        void AddOrUpdate(object target);
+        Action<object> SetTarget { get; }
     }
 }

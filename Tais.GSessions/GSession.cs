@@ -19,7 +19,7 @@ namespace Tais.GSessions
 
         public IEnumerable<IDepart> departs { get; private set; }
 
-        private Global global { get; set; }
+        //private Global global { get; set; }
 
         public void OnDayInc()
         {
