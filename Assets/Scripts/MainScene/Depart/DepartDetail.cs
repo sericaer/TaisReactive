@@ -1,9 +1,11 @@
 ﻿using System.Collections;
 using Tais.API;
 using UnityEngine;
+using UnityEngine.UI;
 
 class DepartDetail : RxMonoBehaviour
 {
+    public Text departName;
     public TabDepartBaseInfo tabDepartBaseInfo;
 
     public IDepart depart
@@ -15,6 +17,8 @@ class DepartDetail : RxMonoBehaviour
         set
         {
             _depart = value;
+            departName.text = _depart.name;
+
             tabDepartBaseInfo.depart = _depart;
         }
     }
