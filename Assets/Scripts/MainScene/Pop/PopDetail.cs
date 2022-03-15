@@ -25,11 +25,27 @@ class PopDetail : RxMonoBehaviour
     {
         defaultBufferItem.gameObject.SetActive(false);
 
-        dataBind.BindText(pop, x => x.num, popCount);
-        dataBind.BindText(pop, x => x.farmTotal, farmTotal);
-        dataBind.BindText(pop, x => x.farmAverage, farmAverage);
-        dataBind.BindText(pop.taxSource, x => x.value, popTax);
-        dataBind.BindText(pop.liveliHood, x => x.value, popLiveliHood);
+        if(pop.isRegister)
+        {
+            dataBind.BindText(pop, x => x.num, popCount);
+            dataBind.BindText(pop, x => x.farmTotal, farmTotal);
+            dataBind.BindText(pop, x => x.farmAverage, farmAverage);
+        }
+        else
+        {
+            dataBind.BindText(pop, x => x.num, popCount, (num)=> new string ('?', num.ToString().Length));
+        }
+
+
+        if(pop.taxSource != null)
+        {
+            dataBind.BindText(pop.taxSource, x => x.value, popTax);
+        }
+        
+        if(pop.liveliHood != null)
+        {
+            dataBind.BindText(pop.liveliHood, x => x.value, popLiveliHood);
+        }
 
         dataBind.BindObservableList(pop.buffMgr.buffers.Connect().RemoveKey().AsObservableList(), OnAddBuffer, OnRemoveBuffer);
 

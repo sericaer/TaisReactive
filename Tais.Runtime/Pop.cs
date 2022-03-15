@@ -32,9 +32,9 @@ namespace Tais.Runtime
 
         public ILiveliHood liveliHood => _liveliHood;
 
-        public int farmTotal { get; set; }
+        public int? farmTotal { get; set; }
 
-        public int farmAverage => farmTotal / num;
+        public int? farmAverage => farmTotal ?? farmTotal / num;
 
         public TaxLevel taxLevel { get; set; }
 
@@ -45,38 +45,46 @@ namespace Tais.Runtime
         private ISourceCache<IPopBuffer, IPopBuffer> buffers = new SourceCache<IPopBuffer, IPopBuffer>(x => x);
 
 
-        public Pop(IDepart depart, IPopDef def, int num, int farmAverage)
+        public Pop(IDepart depart, IPopDef def, int num, int? farmAverage)
         {
             this.depart = depart;
             this.def = def;
             this.num = num;
-            this.farmTotal = farmAverage * num;
+
+            this.farmTotal = farmAverage?? farmAverage * num;
 
             buffMgr = new BufferManager(this);
 
-            _taxSource = new TaxSource(this);
-
-            _liveliHood = new LiveliHood();
-
-            this.WhenValueChanged(x => x.taxLevel).Subscribe(level =>
+            if(isRegister)
             {
-                foreach (var effectDef in def.taxLevelEffect[level])
+                _taxSource = new TaxSource(this);
+
+                _liveliHood = new LiveliHood();
+
+                this.WhenValueChanged(x => x.taxLevel).Subscribe(level =>
                 {
-                    var effect = effectDef.Generate("POP_TAX_LEVEl");
+                    foreach (var effectDef in def.taxLevelEffect[level])
+                    {
+                        var effect = effectDef.Generate("POP_TAX_LEVEl");
 
-                    effect.SetTarget(this);
-                }
-            });
+                        effect.SetTarget(this);
+                    }
+                });
 
-            this.WhenValueChanged(x => x.farmAverage).Subscribe(average =>
-            {
-                foreach (var effectDef in def.GetFarmAverageEffectLevel(average))
+                if (farmAverage != null)
                 {
-                    var effect = effectDef.Generate("POP_FARM");
+                    this.WhenValueChanged(x => x.farmAverage).Subscribe(average =>
+                    {
+                        foreach (var effectDef in def.GetFarmAverageEffectLevel(average.Value))
+                        {
+                            var effect = effectDef.Generate("POP_FARM");
 
-                    effect.SetTarget(this);
+                            effect.SetTarget(this);
+                        }
+                    });
                 }
-            });
+            }
+
         }
 
         public void DayInc(IDate now)

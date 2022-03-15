@@ -13,9 +13,9 @@ namespace Tais.API
 
         bool isRegister { get;}
 
-        int farmTotal { get; }
+        int? farmTotal { get; }
 
-        int farmAverage { get; }
+        int? farmAverage { get; }
 
         TaxLevel taxLevel { get; set; }
 

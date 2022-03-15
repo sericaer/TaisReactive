@@ -14,6 +14,6 @@ namespace Tais.API.Def
         public IPopDef pop;
 
         public int num;
-        public int farmAverage;
+        public int? farmAverage;
     }
 }

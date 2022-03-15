@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Tais.API.Def;
 using Tais.GModders.Effects;
@@ -17,52 +18,83 @@ namespace Tais.GModders
                 rslt.defs = defs;
 
                 defs.popTaxLevelDef = TaxLevelDef.Default;
-                
-                for(int i=0; i<4; i++)
+
+                defs._popDefs = new List<IPopDef>()
                 {
-                    var popDef = new PopDef();
-                    popDef.name = $"POP_{i}";
-                    popDef.taxLevelEffect = TaxLevelDef.Default.dict;
-
-                    popDef.GetFarmAverageEffectLevel = (average) =>
+                    new PopDef()
                     {
-                        return new IEffectDef[] { (new PopLiveliHoodEffectDef(average * 10)) };
-                    };
-
-                    if(i==1)
+                        name = $"POP_0",
+                        isRegister = true,
+                        taxLevelEffect = TaxLevelDef.Default.dict,
+                        GetFarmAverageEffectLevel = (average) =>
+                        {
+                            return new IEffectDef[] { (new PopLiveliHoodEffectDef(average * 10)) };
+                        }
+                    },
+                    new PopDef()
                     {
-                        popDef.CalcConvert = (pop) =>
+                        name = $"POP_1",
+                        isRegister = true,
+                        taxLevelEffect = TaxLevelDef.Default.dict,
+                        GetFarmAverageEffectLevel = (average) =>
+                        {
+                            return new IEffectDef[] { (new PopLiveliHoodEffectDef(average * 10)) };
+                        },
+                        CalcConvert = (pop) =>
                         {
                             return new (string to, float thousandth)[] { ($"POP_0", 0.1f), ($"POP_2", 0.2f), ($"POP_3", 0.3f) };
-                        };
-                    }
-
-                    if (i != 3)
+                        }
+                    },
+                    new PopDef()
                     {
-                        popDef.isRegister = true;
-                    }
+                        name = $"POP_2",
+                        isRegister = false,
+                        taxLevelEffect = TaxLevelDef.Default.dict,
+                    },
+                    new PopDef()
+                    {
+                        name = $"POP_3",
+                        isRegister = false,
+                        taxLevelEffect = TaxLevelDef.Default.dict,
+                    },
+                };
 
-
-                    defs._popDefs.Add(popDef);
-                }
-
-                for(int i=0; i<3; i++)
+                defs._departDefs = new List<IDepartDef>()
                 {
-                    var departDef = new DepartDef();
-                    departDef.name = $"DEPART_{i}";
-
-                    for (int j = 0; j < 4; j++)
+                    new DepartDef()
                     {
-                        departDef._popInits.Add(new PopInit()
-                        {
-                            pop = defs.popDefs.ElementAt(j),
-                            num = (j + 1) * 10000,
-                            farmAverage = (10 - j * j)
-                        });
-                    }
+                        name = $"DEPART_0",
 
-                    defs._departDefs.Add(departDef);
-                }
+                        _popInits = new List<PopInit>()
+                        {
+                            new PopInit()
+                            {
+                                pop = defs.popDefs.Single(x=>x.name == "POP_0"),
+                                num = 1000,
+                                farmAverage = 100
+                            },
+
+                            new PopInit()
+                            {
+                                pop = defs.popDefs.Single(x=>x.name == "POP_1"),
+                                num = 30000,
+                                farmAverage = 7
+                            },
+
+                            new PopInit()
+                            {
+                                pop = defs.popDefs.Single(x=>x.name == "POP_2"),
+                                num = 20000
+                            },
+
+                            new PopInit()
+                            {
+                                pop = defs.popDefs.Single(x=>x.name == "POP_3"),
+                                num = 2000
+                            }
+                        }
+                    }
+                };
 
                 return rslt;
             }
