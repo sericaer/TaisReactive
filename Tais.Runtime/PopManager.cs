@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using Tais.API;
 using Tais.API.Def;
+using ReactiveMarbles.PropertyChanged;
 
 namespace Tais.Runtime
 {
@@ -15,22 +16,15 @@ namespace Tais.Runtime
         public event PropertyChangedEventHandler PropertyChanged;
 #pragma warning restore 67
 
-        public int totalCount { get; private set; }
+        public int registerCount { get; private set; }
 
         public IObservableList<IPop> pops => _pops;
 
         private SourceList<IPop> _pops = new SourceList<IPop>();
 
-        private IDisposable dispTotalCountSubscribe;
-
         public PopManager()
         {
-            pops.Connect().Subscribe(changes =>
-            {
-                dispTotalCountSubscribe?.Dispose();
-
-                dispTotalCountSubscribe = pops.Connect().WhenValueChanged(x => x.num).Subscribe(_=> totalCount = pops.Items.Sum(x => x.num));
-            });
+            
         }
 
         public void DayInc(IDate now)
@@ -41,11 +35,16 @@ namespace Tais.Runtime
             }
         }
 
-        public IPop Create(PopInit popInit)
+        public IPop Create(IDepart depart, PopInit popInit)
         {
-            var pop = new Pop(popInit.pop, popInit.num, popInit.farmAverage);
+            var pop = new Pop(depart, popInit.pop, popInit.num, popInit.farmAverage);
 
             _pops.Add(pop);
+
+            if(pop.isRegister)
+            {
+                pop.WhenChanged(x => x.num).Subscribe(_ => registerCount = pops.Items.Where(x => x.isRegister).Sum(x => x.num));
+            }
 
             return pop;
         }

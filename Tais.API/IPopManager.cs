@@ -9,11 +9,11 @@ namespace Tais.API
 {
     public interface IPopManager : INotifyPropertyChanged
     {
-        int totalCount { get; }
+        int registerCount { get; }
 
         IObservableList<IPop> pops { get; }
 
         void DayInc(IDate now);
-        IPop Create(PopInit popInit);
+        IPop Create(IDepart depart, PopInit popInit);
     }
 }

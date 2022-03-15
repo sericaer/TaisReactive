@@ -11,7 +11,7 @@ class TopPop : RxMonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        dataBind.BindText(GSession.inst.popMgr, x => x.totalCount, popCount);
+        dataBind.BindText(GSession.inst.popMgr, x => x.registerCount, popCount);
     }
 
     // Update is called once per frame

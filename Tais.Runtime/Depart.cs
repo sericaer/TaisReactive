@@ -4,6 +4,8 @@ using System.ComponentModel;
 using System.Linq;
 using Tais.API;
 using Tais.Runtime.Buffers;
+using ReactiveMarbles.PropertyChanged;
+using System.Collections.Generic;
 
 namespace Tais.Runtime
 {
@@ -36,44 +38,50 @@ namespace Tais.Runtime
 
         public IDepartTaxSource taxSource => _taxSource;
 
-        public IObservableList<IPop> pops => _pops;
+        public IObservableList<IPop> pops { get; set; }
 
         public int farmTotal { get; private set; }
 
         public SourceList<IDepartBuffer> buffers = new SourceList<IDepartBuffer>();
 
-        private SourceList<IPop> _pops = new SourceList<IPop>();
-
-        private IDisposable dispPopCountSubScrible;
-        private IDisposable dispfarmToalSubScrible;
+        private Dictionary<object, IDisposable> dictIDisposable = new Dictionary<object, IDisposable>();
 
         private TaxLevel _taxLevel;
 
         private TaxSource _taxSource;
 
-        public Depart(string name)
+        public Depart(string name, IObservableList<IPop> pops)
         {
             this.name = name;
+            this.pops = pops;
             this._taxSource = new TaxSource(this);
 
-            pops.Connect().Subscribe(changeds =>
-            {
-                dispPopCountSubScrible?.Dispose();
-                dispfarmToalSubScrible?.Dispose();
-
-                dispPopCountSubScrible = pops.Connect().WhenValueChanged(x=>x.num).Subscribe(_ => popCount = pops.Items.Sum(x => x.num));
-                dispfarmToalSubScrible = pops.Connect().WhenValueChanged(x => x.farmTotal).Subscribe(_ => farmTotal = pops.Items.Sum(x => x.farmTotal));
-
-                foreach (var popAdded in changeds.Where(x=>x.Reason == ListChangeReason.Add).Select(x=>x.Item.Current))
-                {
-                    popAdded.taxLevel = _taxLevel;
-                }
-            });
+            pops.Connect().OnItemAdded(OnPopAdd).Subscribe();
+            pops.Connect().OnItemRemoved(OnPopRemove).Subscribe();
         }
 
-        public void AddPop(IPop pop)
+        private void OnPopAdd(IPop pop)
         {
-            _pops.Add(pop);
+            pop.taxLevel = _taxLevel;
+
+            if(pop.isRegister)
+            {
+                var disp = pop.WhenChanged(x => x.num).Subscribe(_=>
+                {
+                    popCount = pops.Items.Where(x => x.isRegister).Sum(x => x.num);
+                });
+
+                dictIDisposable.Add(pop, disp);
+            }
+        }
+
+        private void OnPopRemove(IPop pop)
+        {
+            if(dictIDisposable.ContainsKey(pop))
+            {
+                dictIDisposable[pop].Dispose();
+                dictIDisposable.Remove(pop);
+            }
         }
 
         public void DayInc()

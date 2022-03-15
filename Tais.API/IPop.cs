@@ -7,7 +7,11 @@ namespace Tais.API
     {
         string name { get; }
 
-        int num { get; }
+        IDepart depart { get; }
+
+        int num { get; set; }
+
+        bool isRegister { get;}
 
         int farmTotal { get; }
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DynamicData;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using Tais.API;
@@ -30,13 +31,13 @@ namespace Tais.GSessions
 
                 foreach(var departDef in defs.departDefs)
                 {
-                    var depart = new Depart(departDef.name);
+                    IDepart depart = new Depart(departDef.name, inst.popMgr.pops.Connect().Filter(x => x.depart.name == departDef.name).AsObservableList());
                     departs.Add(depart);
 
-                    foreach(var popInit in departDef.popInits)
+
+                    foreach (var popInit in departDef.popInits)
                     {
-                        var pop = inst.popMgr.Create(popInit);
-                        depart.AddPop(pop);
+                        var pop = inst.popMgr.Create(depart, popInit);
                     }
 
                     taxMgr.AddTaxSourcePerMonth(depart.taxSource);

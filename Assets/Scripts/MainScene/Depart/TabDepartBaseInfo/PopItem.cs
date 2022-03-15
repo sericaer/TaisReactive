@@ -17,7 +17,18 @@ class PopItem : RxMonoBehaviour
     {
         popName.text = pop.name;
 
-        dataBind.BindText(pop, x => x.num, popCount);
+        if(pop.isRegister)
+        {
+            dataBind.BindText(pop, x => x.num, popCount);
+        }
+        else
+        {
+            dataBind.BindText(pop, x => x.num, popCount, (num)=> 
+            {
+                return new string('?', num.ToString().Length);
+            });
+        }
+
     }
 
     public void OnClick()

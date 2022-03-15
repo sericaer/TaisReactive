@@ -10,8 +10,13 @@ namespace Tais.GModders
     {
         public string name { get; internal set; }
 
+        public bool isRegister { get; internal set; }
+
         public Dictionary<TaxLevel, IEnumerable<IEffectDef>> taxLevelEffect { get; internal set; }
 
         public Func<int, IEnumerable<IEffectDef>> GetFarmAverageEffectLevel { get; internal set; }
+
+        public Func<IPop, IEnumerable<(string to, float thousandth)>> CalcConvert { get; internal set; }
+
     }
 }
